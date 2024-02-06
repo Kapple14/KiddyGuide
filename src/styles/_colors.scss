@@ -1,0 +1,43 @@
+/*Threefold Magic*/
+$light_shades: #6aff71;
+$light_accent: #ffbc6a;
+$main_brand_color: #ff716a;
+$dark_accent: #cb608d;
+$dark_shades: #716aff;
+
+$primary: #01b6f3;
+$secondary: #ffa904;
+$tertiary: #e90454;
+
+$error: #db1401;
+$warning: #fcc402;
+
+$text: #000000;
+$white: #fffffff6;
+
+$nav_gradient: -webkit-linear-gradient(
+  0deg,
+  rgba($primary, 1) 50%,
+  rgba($text, 1) 50%
+);
+$black_gradient: linear-gradient(
+  125deg,
+  rgba($primary, 1) 0%,
+  rgba($secondary, 1) 100%
+);
+
+$box_shadow: 0px 0px 7px 0px
+  rgba(
+    $color: $text,
+    $alpha: 0.1,
+  );
+$box_shadow_inset: inset 0px 0px 25px 5px
+  rgba(
+    $color: $text,
+    $alpha: 0.1,
+  );
+$box_shadow_hover: 0px 0px 7px 0px
+  rgba(
+    $color: $text,
+    $alpha: 0.15,
+  );

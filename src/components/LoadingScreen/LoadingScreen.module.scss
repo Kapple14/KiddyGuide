@@ -1,0 +1,29 @@
+@import "@/styles/fonts";
+@import "@/styles/colors";
+@import "@/styles/spacings";
+@import "@/styles/animations";
+
+@keyframes bubbling {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+
+  transform: scale(1);
+  }
+}
+
+.loadingScreen {
+  height: 8rem;
+  width: 8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1);
+  animation: bubbling alternate infinite 1.5s linear;
+
+  img {
+    height: 100%;
+    object-fit: contain;
+  }
+}

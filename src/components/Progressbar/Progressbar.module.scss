@@ -1,0 +1,12 @@
+@import "@/styles/fonts";
+@import "@/styles/colors";
+@import "@/styles/spacings";
+@import "@/styles/animations";
+
+.progressBar {
+  height: 0.25rem;
+  margin-top: 0.5rem;
+  border-radius: 5rem;
+  background: $primary;
+  transition: all $duration ease-in-out;
+}

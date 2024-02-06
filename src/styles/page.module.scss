@@ -1,10 +1,16 @@
+@import "@/styles/fonts";
+@import "@/styles/colors";
+@import "@/styles/spacings";
+@import "@/styles/animations";
+
 .main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  padding: 6rem;
-  min-height: 100vh;
+  align-items: flex-start;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  gap: 1rem;
 }
 
 .description {
@@ -16,61 +22,6 @@
   width: 100%;
   z-index: 2;
   font-family: var(--font-mono);
-}
-
-.description a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.description p {
-  position: relative;
-  margin: 0;
-  padding: 1rem;
-  background-color: rgba(var(--callout-rgb), 0.5);
-  border: 1px solid rgba(var(--callout-border-rgb), 0.3);
-  border-radius: var(--border-radius);
-}
-
-.code {
-  font-weight: 700;
-  font-family: var(--font-mono);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(25%, auto));
-  max-width: 100%;
-  width: var(--max-width);
-}
-
-.card {
-  padding: 1rem 1.2rem;
-  border-radius: var(--border-radius);
-  background: rgba(var(--card-rgb), 0);
-  border: 1px solid rgba(var(--card-border-rgb), 0);
-  transition: background 200ms, border 200ms;
-}
-
-.card span {
-  display: inline-block;
-  transition: transform 200ms;
-}
-
-.card h2 {
-  font-weight: 600;
-  margin-bottom: 0.7rem;
-}
-
-.card p {
-  margin: 0;
-  opacity: 0.6;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  max-width: 30ch;
-  text-wrap: balance;
 }
 
 .center {
@@ -105,25 +56,81 @@
   transform: translateZ(0);
 }
 
-.logo {
-  position: relative;
+
+.controllerButtons {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 0rem;
+  opacity: 0;
+  overflow: hidden;
+  transition: all $duration ease-in-out;
 }
+
+.controlEnabled {
+  opacity: 1;
+  min-height: 2rem;
+}
+
+.chevronButtons {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  min-height: 0;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  transition: all $duration ease-in-out;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.chevronButtons svg {
+  height: 100%;
+}
+
+.chevronButtons:nth-child(1) svg {
+  margin-left: -10%;
+}
+
+.chevronButtons:nth-child(2) svg {
+  margin-left: 10%;
+}
+
+.chevronButtons:hover path {
+  stroke: $primary;
+  transition: all $duration ease-in-out;
+}
+
+.chevronButtons:disabled {
+  stroke: none;
+  opacity: 0.2;
+}
+
+.chevronButtons:hover:disabled path {
+  stroke: $text;
+  background: $white;
+}
+
+.funnel
+{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
-  .card:hover {
-    background: rgba(var(--card-rgb), 0.1);
-    border: 1px solid rgba(var(--card-border-rgb), 0.15);
-  }
 
-  .card:hover span {
-    transform: translateX(4px);
-  }
-}
-
-@media (prefers-reduced-motion) {
-  .card:hover span {
-    transform: none;
-  }
 }
 
 /* Mobile */
@@ -211,13 +218,6 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .vercelLogo {
-    filter: invert(1);
-  }
-
-  .logo {
-    filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
-  }
 }
 
 @keyframes rotate {

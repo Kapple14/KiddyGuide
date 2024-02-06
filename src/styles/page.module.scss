@@ -125,7 +125,8 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
+  min-height: calc(100vh - 15rem);
 }
 
 /* Enable hover only on non-touch devices */

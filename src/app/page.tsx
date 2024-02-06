@@ -2,12 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useChat } from "ai/react";
-import { Controller, Form, useForm, useFormState } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z, object, string, date, number } from "zod";
 import axios from "axios";
-
-import Image from "next/image";
 
 import styles from "@/styles/page.module.scss";
 
@@ -16,11 +11,8 @@ import ChevronLeftIcon from "@/components/Icons/ChevronLeftIcon";
 import ChevronRightIcon from "@/components/Icons/ChevronRightIcon";
 
 import FormControl from "@mui/material/FormControl";
-import FormHelperText from "@mui/material/FormHelperText";
 import FormLabel from "@mui/material/FormLabel";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Alert from "@mui/material/Alert";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Button from "@mui/material/Button";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
@@ -39,38 +31,14 @@ export default function Home() {
     latitude: 52.52,
     longitude: 13.405,
   });
-  const [ageGroup, setAgeGroup] = useState<number | null | undefined>(null);
+  const [ageGroup, setAgeGroup] = useState<string | null | undefined>(null);
   const [spots, setSpots] = useState<any[] | null | undefined>(null);
   const [selectedSpot, setSelectedSpot] = useState<string | undefined>(
     undefined
   );
   const [story, setStory] = useState<string | null | undefined>(null);
-  const [disabled, setDisabled] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean | undefined>(false);
   const [progress, setProgress] = useState<number | undefined>(0);
-
-  const steps = [
-    {
-      id: "Step 1",
-      fields: ["user_location"],
-    },
-    {
-      id: "Step 2",
-      fields: ["age_group"],
-    },
-    {
-      id: "Step 3",
-      fields: ["attractions"],
-    },
-  ];
-
-  const userProfileSchema = z.object({
-    user_location: z.string().min(4, "Please let us know your city").max(75),
-    age_group: z
-      .string()
-      .min(2, "Please choose a username of at least two characters")
-      .max(75),
-  });
 
   const { messages, input, setInput, handleInputChange, handleSubmit } =
     useChat();
@@ -78,7 +46,7 @@ export default function Home() {
   async function handleGetLocation() {
     if (navigator) {
       setProgress(1);
-      setLoading(false);
+      setLoading(true);
       const position = await navigator?.geolocation?.getCurrentPosition(
         (position) => {
           setLocation({
@@ -94,9 +62,9 @@ export default function Home() {
     }
   }
 
-  const handleSpotSelect = (event: SelectChangeEvent) => {
-    setSelectedSpot(event.target.value as string);
-    setProgress(3);
+  const handleSpotSelect = (event: any) => {
+    setSelectedSpot(event.target.value);
+    getStory(event.target.value);
   };
 
   async function getSpots() {
@@ -110,7 +78,6 @@ export default function Home() {
           longitude: location?.longitude,
         },
       });
-      console.log("Response:", response.data.messages.split(";"));
       setSpots(response.data.messages.split(";"));
       setLoading(false);
       // Handle response as needed
@@ -120,19 +87,15 @@ export default function Home() {
     }
   }
 
-  async function getStory() {
+  async function getStory(spot: string) {
     setProgress(3);
     setLoading(true);
     try {
       // Make a POST request to the API endpoint
-      const response = await axios.post("/api/spots", {
-        data: {
-          latitude: location?.latitude,
-          longitude: location?.longitude,
-        },
+      const response = await axios.post("/api/story", {
+        data: { message: `${spot}, ${ageGroup} years old` },
       });
-      console.log("Response:", response.data.messages.split(";"));
-      setSpots(["Brandenburg", "Berlin", "Hamburg", "Munich", "Cologne"]);
+      setStory(response.data.messages);
       setLoading(false);
       // Handle response as needed
     } catch (error) {
@@ -183,27 +146,28 @@ export default function Home() {
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
                     name="radio-buttons-group"
-                    onChange={() => {
+                    onChange={(e) => {
+                      setAgeGroup(e.target.value);
                       getSpots();
                     }}
                   >
                     <FormControlLabel
-                      value={0}
+                      value={"3-4"}
                       control={<Radio />}
                       label="3-4"
                     />
                     <FormControlLabel
-                      value={1}
+                      value={"5-7"}
                       control={<Radio />}
                       label="5-7"
                     />
                     <FormControlLabel
-                      value={2}
+                      value={"8-11"}
                       control={<Radio />}
                       label="8-11"
                     />
                     <FormControlLabel
-                      value={3}
+                      value={"12-15"}
                       control={<Radio />}
                       label="12-15"
                     />
@@ -234,8 +198,10 @@ export default function Home() {
                   >
                     {spots &&
                       spots.length > 0 &&
-                      spots?.map((spot) => (
-                        <MenuItem value={spot}>{spot}</MenuItem>
+                      spots?.map((spot, index) => (
+                        <MenuItem value={spot} key={`${spot.trim()}-${index}`}>
+                          {spot}
+                        </MenuItem>
                       ))}
                   </Select>
                 </FormControl>
@@ -246,7 +212,16 @@ export default function Home() {
           </>
         )}
         {progress === 3 && (
-          <>{!loading ? <h2>Here is your story</h2> : <LoadingScreen />}</>
+          <>
+            {!loading ? (
+              <>
+                <h2>Here is your story</h2>
+                <p>{story}</p>
+              </>
+            ) : (
+              <LoadingScreen />
+            )}
+          </>
         )}
       </div>
     </main>

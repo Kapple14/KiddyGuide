@@ -8,11 +8,10 @@ export async function POST(req: Request) {
   const thread = await openai.beta.threads.create();
 
   const { data } = await req.json();
-
   // Add a Message to a Thread
   const message = await openai.beta.threads.messages.create(thread.id, {
     role: "user",
-    content: data, // add selected POI
+    content: data.message, // add selected POI
   });
 
   // Run the Assistant (POI->Story)

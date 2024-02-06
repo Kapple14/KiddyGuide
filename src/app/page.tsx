@@ -92,9 +92,13 @@ export default function Home() {
     setLoading(true);
     try {
       // Make a POST request to the API endpoint
-      const response = await axios.post("/api/story", {
-        data: { message: `${spot}, ${ageGroup} years old` },
-      });
+      const response = await axios.post(
+        "/api/story",
+        {
+          data: { message: `${spot}, ${ageGroup} years old` },
+        },
+        { timeout: 500000 }
+      );
       setStory(response.data.messages);
       setLoading(false);
       // Handle response as needed

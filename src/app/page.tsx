@@ -100,7 +100,7 @@ export default function Home() {
         { timeout: 50 * 1000 }
       );
       const { thread_id, run_id } = response.data;
-      await new Promise((resolve) => setTimeout(resolve, 30 * 1000));
+      await new Promise((resolve) => setTimeout(resolve, 25 * 1000));
       // Make a POST request to the API endpoint
       const story = await axios.post(
         "/api/story",

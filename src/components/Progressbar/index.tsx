@@ -1,4 +1,4 @@
-import styles from "./progressbar.module.scss"; // Update the import path based on your project structure
+import styles from "@/styles/Progressbar.module.scss"; // Update the import path based on your project structure
 
 interface ProgressBarProps {
   progress?: number;

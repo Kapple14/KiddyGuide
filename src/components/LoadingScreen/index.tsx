@@ -1,4 +1,4 @@
-import styles from "./loadingScreen.module.scss"; // Update the import path based on your project structure
+import styles from "@/styles/LoadingScreen.module.scss"; // Update the import path based on your project structure
 
 import Image from "next/image";
 

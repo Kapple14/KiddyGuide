@@ -46,7 +46,7 @@ export default function Home() {
   async function handleGetLocation() {
     if (navigator) {
       setProgress(1);
-      setLoading(true);
+      setLoading(false);
       const position = await navigator?.geolocation?.getCurrentPosition(
         (position) => {
           setLocation({
@@ -93,13 +93,23 @@ export default function Home() {
     try {
       // Make a POST request to the API endpoint
       const response = await axios.post(
-        "/api/story",
+        "/api/thread",
         {
           data: { message: `${spot}, ${ageGroup} years old` },
         },
-        { timeout: 50*1000 }
+        { timeout: 50 * 1000 }
       );
-      setStory(response.data.messages);
+      const { thread_id, run_id } = response.data;
+      await new Promise((resolve) => setTimeout(resolve, 20 * 1000));
+      // Make a POST request to the API endpoint
+      const story = await axios.post(
+        "/api/story",
+        {
+          data: { thread_id: thread_id, run_id: run_id },
+        },
+        { timeout: 50 * 1000 }
+      );
+      setStory(story.data.messages);
       setLoading(false);
       // Handle response as needed
     } catch (error) {

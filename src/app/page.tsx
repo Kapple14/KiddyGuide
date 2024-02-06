@@ -97,7 +97,7 @@ export default function Home() {
         {
           data: { message: `${spot}, ${ageGroup} years old` },
         },
-        { timeout: 500000 }
+        { timeout: 50*1000 }
       );
       setStory(response.data.messages);
       setLoading(false);

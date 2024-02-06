@@ -25,7 +25,7 @@ export async function POST(req: Request) {
   // Check the Run status
   let run_status = await openai.beta.threads.runs.retrieve(thread.id, run.id);
   while (run_status.status != "completed") {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 500));
     run_status = await openai.beta.threads.runs.retrieve(thread.id, run.id);
   }
 

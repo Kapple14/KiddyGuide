@@ -17,7 +17,7 @@ To get started with City Kids Tour Guide, follow these steps:
 1. Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/Kapple14/city-kids-tour-guide.git
+git clone https://github.com/Kapple14/KiddyGuide.git
 ```
 
 2. Install dependencies

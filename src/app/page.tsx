@@ -20,6 +20,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import LoadingScreen from "@/components/LoadingScreen";
+import Alert from '@mui/material/Alert';
 
 type Location = {
   latitude: number;
@@ -39,6 +40,7 @@ export default function Home() {
   const [story, setStory] = useState<string | null | undefined>(null);
   const [loading, setLoading] = useState<boolean | undefined>(false);
   const [progress, setProgress] = useState<number | undefined>(0);
+  const [error, setError] = useState<string | null | undefined>(null);
 
   const { messages, input, setInput, handleInputChange, handleSubmit } =
     useChat();
@@ -57,6 +59,17 @@ export default function Home() {
         },
         (error) => {
           console.error("Error getting location:", error.message);
+          setError(
+            <div>
+              Error occurred while retrieving your location: {error.message}. <br /> <br />
+              <b>Please ensure that location permissions are enabled and/or update your browser to the latest version.</b>
+            </div>
+          );                    
+        },
+        {
+          maximumAge: 300000,
+          timeout: 60000,
+          enableHighAccuracy: true
         }
       );
     }
@@ -135,6 +148,20 @@ export default function Home() {
         </button>
       </div>
       <div className={styles.funnel}>
+        {error && (
+          <Alert severity="error">
+            {error}
+            <br></br>
+            <Button
+              variant="contained"
+              type="submit"
+              color="error"
+              onClick={() => setError(null)}
+            >
+              Close
+            </Button>
+          </Alert>
+        )}
         {progress === 0 && (
           <>
             <h2>Where are you?</h2>
